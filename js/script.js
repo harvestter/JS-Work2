@@ -96,4 +96,42 @@ function hideTabContent() { //фця которая скрывает конте�
     }
 
     setClock('.timer', deadline);
+
+
+   //Создание Модального окна
+
+   const modalTrigger = document.querySelectorAll('[data-modal]'),
+         modal = document.querySelector('.modal'),
+         modalCloseBtn = document.querySelector('[data-close]');
+
+    modalTrigger.forEach(btn => {
+        btn.addEventListener('click', () => {
+            modal.classList.add('show');
+            modal.classList.remove('hide');
+            //modal.style.display = 'block';
+            //modal.classList.toggle('show')
+            document.body.style.overflow = 'hidden'; //блокируем прокрутку сайта при открытом модальном окне
+        });
+    });
+
+    function closeModal() { //закрытие модальных окон
+        modal.classList.add('hide');
+        modal.classList.remove('show');
+        //modal.classList.toggle('show')
+        document.body.style.overflow = ''; //восстанавливаем прокрутку сайта при открытом модальном окне
+    }
+
+    modalCloseBtn.addEventListener('click', closeModal); //закрытие при нажатии на крестик, вызываем функцию
+
+    modal.addEventListener('click', (event) => { //закрытие модального окна при нажатии на облать в него его
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.code === "Escape" && modal.classList.contains('show')) { //если нажимаем ESC и открыто модальное окно, то Закрыть модальное окно
+            closeModal();
+        }
+    });
 });
